@@ -1,0 +1,41 @@
+<h1>Connect to the world with a post!</h1>
+
+<form [formGroup]="form" (submit)="upload()">
+  <table>
+    <tr>
+        <td>Title:</td>
+    </tr>
+    <tr>
+      <td>
+        <input type="text" size="30" formControlName="title">
+      </td>
+    </tr>
+    <br>
+    <tr>
+        <td>File:</td>
+    </tr>
+    <tr>
+      <td>
+        <input type="file" formControlName="file" #uploadFile>
+      </td>
+    </tr>
+    <br>
+
+    <tr>
+        <td>Comments: </td>
+    </tr>
+    <tr>
+        <td>
+            <textarea rows="15" cols="70" formControlName="comments"></textarea>
+        </td>
+    </tr>
+    <tr>
+      
+      <td>
+        <button type="submit" [disabled]="form.invalid">
+          Upload
+        </button>
+      </td>
+    </tr>
+  </table>
+</form>
