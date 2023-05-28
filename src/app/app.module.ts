@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule} from '@angular/common/http'
 import { Routes, RouterModule } from '@angular/router';
 import { UploadService } from './upload.service';
+import { PhotoService } from './photo.service';
 
 const appRoutes:Routes = [
   
@@ -27,7 +28,7 @@ const appRoutes:Routes = [
     BrowserModule, ReactiveFormsModule, HttpClientModule,
     RouterModule.forRoot(appRoutes, {useHash: true})
   ],
-  providers: [UploadService],
+  providers: [UploadService, PhotoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

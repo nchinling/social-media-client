@@ -1,1 +1,30 @@
-<p>post works!</p>
+<div class="row">
+    <img [src]="photoDataUrl" width="200">
+</div>
+
+<div *ngIf="post$ | async as p" style="font-size: 1.5em;">
+    <table>
+        <tr>
+            Post Id &nbsp;&nbsp;
+            {{p.postId}}
+        </tr>
+        <tr>
+            {{p.title}}
+        </tr>
+        
+        <tr>{{p.comments}}</tr>
+    </table>
+</div> 
+
+
+<div>
+    <table>
+        <tr>
+            <td>
+                <button type="button" (click)="thumbsUp()">👍</button>
+                <button type="button" (click)="thumbsDown()">👎</button>
+            </td>
+        </tr>
+    </table>
+</div>
+

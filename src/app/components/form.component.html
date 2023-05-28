@@ -1,4 +1,4 @@
-<h1>Connect to the world with a post!</h1>
+<h1>Connect to the world with a post! 👍</h1>
 
 <form [formGroup]="form" (submit)="upload()">
   <table>
@@ -26,7 +26,7 @@
     </tr>
     <tr>
         <td>
-            <textarea rows="15" cols="70" formControlName="comments"></textarea>
+            <textarea rows="5" cols="70" formControlName="comments"></textarea>
         </td>
     </tr>
     <tr>
@@ -39,3 +39,18 @@
     </tr>
   </table>
 </form>
+
+<div *ngIf="post$ | async as p" style="font-size: 1.5em;">
+  <table>
+    <tr>
+      <code>
+        {{p.postId}} {{p.title}}  {{p.comments}}
+    </code>
+    </tr>
+  </table>
+
+
+
+
+
+

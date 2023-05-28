@@ -1,9 +1,11 @@
 import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { firstValueFrom } from 'rxjs';
+import { Observable, first, firstValueFrom } from 'rxjs';
 import { UploadService } from '../upload.service';
-import { Post } from '../models';
-import { Router } from '@angular/router';
+import { Post, PostResponse } from '../models';
+import { Params, Router } from '@angular/router';
+import { PhotoService } from '../photo.service';
+// import { PhotoService } from '../photo.service';
 
 @Component({
   selector: 'app-form',
@@ -16,6 +18,10 @@ export class FormComponent {
   fb=inject(FormBuilder)
   uploadSvc = inject(UploadService)
   router = inject(Router)
+  photoSvc = inject(PhotoService)
+
+  post$!: Promise<PostResponse>
+  // post$!: Observable<PostResponse>
 
   @ViewChild('uploadFile')
   uploadFile!: ElementRef
@@ -31,18 +37,23 @@ export class FormComponent {
   upload(){
     const data:Post = this.form.value
     const imageFile: File = this.uploadFile.nativeElement.files[0]
+    this.photoSvc.photo = imageFile
     console.info('>>> data: ', data)
     console.info('>>> file: ', imageFile)
 
-    //use promise
-    firstValueFrom(this.uploadSvc.upload(data['title'], data['comments'], imageFile))
-      .then(result=>{
-        alert('uploaded')
-        this.form.reset
-        this.router.navigate(['/post'])
-      })
-      .catch(err =>{
-        alert(JSON.stringify(err))
-      })
+    //Using promise
+    this.post$=firstValueFrom(this.uploadSvc.upload(data['title'], data['comments'], imageFile))
+    alert('uploaded') 
+    this.form.reset
+    this.router.navigate(['/post'])
+
+    //Using Observable. Be careful when firing/passing info with Observable as it is asynchronous. 
+    //Consider using Promise which will take firstValue 
+    // this.post$ = this.uploadSvc.upload(data['title'], data['comments'], imageFile)
+    // alert('uploaded')
+    // this.form.reset
+    // this.router.navigate(['/post'])
+
+
   }
 }
