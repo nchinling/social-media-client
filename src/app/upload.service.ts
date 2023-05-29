@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http"
 import { Injectable, inject } from "@angular/core"
-import { Observable, Subject, filter, tap } from "rxjs"
-import { LikesResponse, PostResponse } from "./models"
+import { Observable, Subject, count, filter, tap } from "rxjs"
+import { Likes, LikesResponse, PostResponse } from "./models"
 
 @Injectable()
 export class UploadService{
@@ -63,13 +63,10 @@ export class UploadService{
     //   }
 
     //Works with both Observable and Promise
-    uploadLike(postId: string, count:number): Observable<LikesResponse> {
+    uploadLike(likes: Likes): Observable<LikesResponse> {
         const strNum = String(count)
-        const formData = new FormData();
-        formData.set('postId', postId);
-        formData.set('count', strNum);
-      
-        return  this.http.post<LikesResponse>('http://localhost:8080/upload', formData).pipe(
+        console.info('>>>I am inside uploadLikes')
+        return this.http.post<LikesResponse>('http://localhost:8080/likes', likes).pipe(
           filter((response) => response !== null), // Filter out null responses
         );
 

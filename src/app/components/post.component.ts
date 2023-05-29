@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
-import { LikesResponse, PostResponse } from '../models';
+import { Observable, Subscription, firstValueFrom } from 'rxjs';
+import { Likes, LikesResponse, PostResponse } from '../models';
 import { PhotoService } from '../photo.service';
 import { UploadService } from '../upload.service';
 // import { PhotoService } from '../photo.service';
@@ -21,12 +21,14 @@ export class PostComponent implements OnInit, OnDestroy{
   photoFile!:File
   photoDataUrl!: string
   postId!: string
-  count!: number
+  plusCount!: number
+  minusCount!:number
+
 
   //contains postId, title and content 
   post$!: Observable<PostResponse>
 
-  like$!: Observable<LikesResponse>
+  like$!: Promise<LikesResponse>
 
   //Subscription is used for manual subscription/unsubscription
   postSubscription!: Subscription
@@ -62,17 +64,19 @@ export class PostComponent implements OnInit, OnDestroy{
 
   thumbsUp() {
     console.log('>>>>postId>>>>>', this.postId)
-    this.count = 1
-    this.like$ = this.uploadSvc.uploadLike(this.postId, this.count)
+    this.plusCount = 1
+    const likes: Likes = {postId: this.postId, plusCount: this.plusCount, minusCount:0}
+    this.like$ = firstValueFrom(this.uploadSvc.uploadLike(likes))
+   
     
   }
 
   thumbsDown(){
     console.log('>>>>postId>>>>>', this.postId)
-    this.count = -1
-    this.like$ = this.uploadSvc.uploadLike(this.postId, this.count)
+    this.minusCount = 1
+    const likes: Likes = {postId: this.postId, plusCount:0, minusCount: this.minusCount}
+    this.like$ = firstValueFrom(this.uploadSvc.uploadLike(likes))
   }
-
 
   ngOnDestroy(): void {
     // Unsubscribe in the ngOnDestroy lifecycle hook

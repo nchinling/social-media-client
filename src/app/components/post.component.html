@@ -16,15 +16,37 @@
     </table>
 </div> 
 
-
 <div>
+    <table>
+      <tr>
+        <td>
+          <button type="button" (click)="thumbsUp()">👍 {{ (like$ | async)?.totalPlusCount }}</button>
+          <button type="button" (click)="thumbsDown()">👎 {{ (like$ | async)?.totalMinusCount }}</button>
+        </td>
+      </tr>
+    </table>
+</div>
+  
+
+
+<!-- <div>
     <table>
         <tr>
             <td>
-                <button type="button" (click)="thumbsUp()">👍</button>
+                <button type="button" (click)="thumbsUp()">👍</button> 
                 <button type="button" (click)="thumbsDown()">👎</button>
             </td>
         </tr>
     </table>
 </div>
+
+<div *ngIf="like$ | async as l" style="font-size: 1.5em;">
+    <table>
+      <tr>
+          {{l.totalPlusCount}}  {{l.totalMinusCount}}  
+      </tr>
+    </table>
+</div> -->
+
+
 

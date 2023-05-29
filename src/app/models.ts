@@ -11,10 +11,13 @@ export interface PostResponse{
 
 export interface Likes{
     postId: string
-    count: number
+    plusCount: number
+    minusCount: number
+    
 }
 
 export interface LikesResponse{
     postId: string
-    total: number
+    totalPlusCount: number
+    totalMinusCount: number
 }
